@@ -27,6 +27,8 @@ const Robot = ({ robot, index: key, isCart }) => {
     const allRobots = useSelector(state => state.robots.allRobots)
 
     const [isAlert, setAlert] = React.useState(false)
+    const [isAlertCart, setAlertCart] = React.useState(false)
+
     const [selectedRobotDisabled, setSelectedDisabled] = React.useState(false)
 
     const addToCart = () => {        
@@ -51,7 +53,7 @@ const Robot = ({ robot, index: key, isCart }) => {
 
         if(stock_curentRobot === 0 || stock_curentRobot < 0) {
             setSelectedDisabled(true)
-            //setAlert(true)
+            setAlertCart(true)
         } else addToCart()
         
         return null
@@ -110,6 +112,14 @@ const Robot = ({ robot, index: key, isCart }) => {
                 </Alert>
                 )
             }
+            {isAlertCart && (
+                <Alert severity="error">
+                    <AlertTitle>No more. Empty</AlertTitle>
+                    "stock" value of `robot` item is 0 
+                </Alert>
+                )
+            }
+            
         </div>
     )
 }
