@@ -1,0 +1,7 @@
+.page_separator{
+    display: flex;
+}
+.robots_content {
+    margin: 0 30px;
+    width: 100%;
+}

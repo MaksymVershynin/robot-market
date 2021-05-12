@@ -1,0 +1,12 @@
+.cart{
+    display: grid;
+    grid-template-rows: 0.01fr 0.01fr ;
+    grid-template-columns: 1fr 1fr ;
+    width: 45vw;
+    border-left: 1px solid;
+}
+
+.cart .info {
+    display: flex;
+    flex-direction: column;
+}

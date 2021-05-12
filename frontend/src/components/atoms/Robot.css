@@ -1,0 +1,10 @@
+.robot {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+    width: fit-content;
+}
+
+.disabled {
+    opacity: 0.5;
+}
