@@ -51,7 +51,7 @@ const Robot = ({ robot, index: key, isCart }) => {
 
         if(stock_curentRobot === 0 || stock_curentRobot < 0) {
             setSelectedDisabled(true)
-            setAlert(true)
+            //setAlert(true)
         } else addToCart()
         
         return null
