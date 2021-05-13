@@ -10,9 +10,6 @@ import {setAllRobots_redux, setVisibleRobots_redux} from './redux/actions'
 
 function App() {
 
-  //const [allRobots, setAllRobots] = React.useState([])
-  //const [robotToShow, setRobotsToShow] = React.useState([])
-  //const [selectedRobots, setSelectedRobots] = React.useState([])
   const [materialTypes, setMaterialTypes] = React.useState([])
 
   const allRobots = useSelector(state => state.robots.allRobots)

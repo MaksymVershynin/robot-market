@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import "./Robot.css"
+import { makeStyles } from '@material-ui/core/styles';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/icons/SaveAlt';
 
 import { setVisibleRobots_redux, setSelectedRobots_redux} from '../../redux/actions'
 import {formatDate, deletedDublicates_array} from "../../services/calc"
+
+const useStyles = makeStyles((theme) => ({
+    button: {
+      margin: theme.spacing(1),
+    },
+    modalButton : {
+        float:"right",
+        marginTop: "20px"
+    },
+    dialog: {
+        padding:"25px 25px 15px 25px"
+    }
+  }));
 
 
 const validation_robotsMax = (selectedRobotsToValidate) => {
@@ -21,15 +38,25 @@ const validation_robotsMax = (selectedRobotsToValidate) => {
 
 
 const Robot = ({ robot, index: key, isCart }) => {
+    const classes = useStyles();
     const dispatch = useDispatch()
     const selectedRobots = useSelector(state => state.robots.selectedRobots)
     const visibleRobots = useSelector(state => state.robots.visibleRobots)
     const allRobots = useSelector(state => state.robots.allRobots)
 
+    const currentRobotID = robot.id;
+    const stock_curentRobot = allRobots[currentRobotID].stock;
+
     const [isAlert, setAlert] = React.useState(false)
-    const [isAlertCart, setAlertCart] = React.useState(false)
 
     const [selectedRobotDisabled, setSelectedDisabled] = React.useState(false)
+
+    useEffect(()=>{
+        if(stock_curentRobot === 0 || stock_curentRobot < 0) {
+        setSelectedDisabled(true)}
+        else setSelectedDisabled(false)
+    },[stock_curentRobot])
+    
 
     const addToCart = () => {        
         setAlert(false) 
@@ -44,19 +71,6 @@ const Robot = ({ robot, index: key, isCart }) => {
             })))
         } else 
             setAlert(true)    
-    }
-
-    const addRobotToCart = (currentRobot) => {
-
-        const currentRobotID = currentRobot.id;
-        const stock_curentRobot = allRobots[currentRobotID].stock;
-
-        if(stock_curentRobot === 0 || stock_curentRobot < 0) {
-            setSelectedDisabled(true)
-            setAlertCart(true)
-        } else addToCart()
-        
-        return null
     }
 
     const deleteFromCart = () => {
@@ -84,41 +98,41 @@ const Robot = ({ robot, index: key, isCart }) => {
             
             {
                 isCart ? <>
-                        <button 
-                            onClick={()=>addRobotToCart(robot)}
-                            className={"delete_cart"}
-                            disabled={selectedRobotDisabled}
-                            >
-                                One more this Robot
-                        </button>     
-                        <button 
-                            onClick={deleteFromCart}
-                            className={"delete_cart"}>
-                                Delete from Cart
-                        </button>
-                    </>
-                    :
-                    <button 
-                        onClick={addToCart} 
-                        disabled={robot.stock === 0}
-                        className={robot.stock === 0 ? "add_cart disabled" : "add_cart"}>
+                            <button 
+                                onClick={addToCart}
+                                className={"delete_cart"}
+                                disabled={selectedRobotDisabled}
+                                >
+                                    One more this Robot
+                            </button>     
+                            <button 
+                                onClick={deleteFromCart}
+                                className={"delete_cart"}>
+                                    Delete from Cart
+                            </button>
+                        </>
+                        :
+                        <Button
+                            onClick={addToCart}
+                            disabled={robot.stock === 0}
+                            variant="contained"
+                            color={isAlert ? "secondary" : "primary"}
+                            className={classes.button}
+                            endIcon={<Icon>add</Icon>}
+                        >
                             Add to Cart
-                    </button>
+                        </Button>
             }
-            {isAlert && (
-                <Alert severity="error">
-                    <AlertTitle>User can add up to 5 different robots to cart, but they can select as much as they want in the same type until it runs out of stoc</AlertTitle>
-                    if user try to add <strong>more that 5 different robots</strong> then it should show an alert
-                </Alert>
-                )
-            }
-            {isAlertCart && (
-                <Alert severity="error">
-                    <AlertTitle>No more. Empty</AlertTitle>
-                    "stock" value of `robot` item is 0 
-                </Alert>
-                )
-            }
+          
+                <Dialog open={isAlert}>
+                    <Alert severity="warning" className={classes.dialog}>
+                        <AlertTitle>User can add up to 5 different robots to cart, but they can select as much as they want in the same type until it runs out of stoc</AlertTitle>
+                        if user try to add <strong>more that 5 different robots</strong> then it should show an alert<br/>
+                        <Button variant="contained" size="small" className={classes.modalButton} onClick={()=>setAlert(false)}>
+                            Got it
+                        </Button>
+                    </Alert>
+                </Dialog>
             
         </div>
     )
