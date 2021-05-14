@@ -5,9 +5,7 @@ import "./App.css"
 import { Button, Dialog } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
-import Cart from './components/Cart'
-import Robots from './containers/Robots'
-import Filter from './containers/Filter'
+import Content from "./containers/Content"
 
 import {setAllRobots_redux, setVisibleRobots_redux} from './redux/actions'
 
@@ -15,8 +13,6 @@ function App() {
 
   const [materialTypes, setMaterialTypes] = React.useState([])
   const [alert, setAlert] = React.useState(false)
-  const [isCartOpen, setCartOpen] = React.useState(true)
-
 
   const allRobots = useSelector(state => state.robots.allRobots)
   const dispatch = useDispatch()
@@ -45,29 +41,8 @@ function App() {
 
   return (
     <div className="App">
-      <div className={"page_separator"}>
-        <div>
-          <h1>Robot Market</h1>
-          <button onClick={()=> setCartOpen(true)}>All Robots</button> 
-          <button onClick={()=> setCartOpen(false)}>My Cart</button> 
-        </div>
-        {isCartOpen && (<>
-          <div className={"robots_content"}>
-            <Filter 
-              allRobots = {allRobots}
-              materialTypes={materialTypes}
-            />
-            <Robots />
-          </div>
+      <Content allRobots = {allRobots} materialTypes = {materialTypes}/>
 
-          <div className={"desktopCart"}>
-            <Cart />
-          </div>
-        </>)}
-        {!isCartOpen && <Cart />}
-
-        
-      </div>
       <Dialog open={alert}>
         <Alert severity="error">
           Something went wrong. Please try again later

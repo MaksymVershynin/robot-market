@@ -15,16 +15,20 @@ import {formatDate, deletedDublicates_array} from "../../services/calc"
 
 const useStyles = makeStyles((theme) => ({
     robot: {
+        border: "0.5px solid grey",  
+        borderRadius: "7px",
         display: "flex",
+        alignSelf: "center",
         flexDirection: "column",
-        margin: "0 20px",
+        textAlign: "center",
+        margin: "5px",
         "& label": {
             marginTop: "10px"
         },
-        "& span" :{
-            // margin: "5px 0 10px",
-            //fontSize: "15px"
-        }
+    },
+    image:{
+        background: "grey",
+        borderRadius:"5px"
     },
     stoc: {
         fontSize:"20px"
@@ -32,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     button: {
       margin: theme.spacing(1),
       width: "fit-content",
-      fontSize: "12px!important"
+      fontSize: "12px!important",
     },
     modalButton : {
         float:"right",
@@ -106,7 +110,7 @@ const Robot = ({ robot, index: key, isCart }) => {
     
     return (
         <div className={classes.robot}>
-            <img src={robot.image}/>
+            <img src={robot.image} className={classes.image}/>
             
             <InputLabel htmlFor="name"><u>Name</u></InputLabel>
             <span id = {'name'} >{robot.name}</span>
@@ -125,6 +129,7 @@ const Robot = ({ robot, index: key, isCart }) => {
                     <ButtonGroup disableElevation variant="contained" color="primary">
                             <Button 
                                 variant="contained"
+                                color = "primary"
                                 onClick={addToCart}
                                 className={classes.button}
                                 disabled={selectedRobotDisabled}
@@ -147,7 +152,7 @@ const Robot = ({ robot, index: key, isCart }) => {
                             onClick={addToCart}
                             disabled={robot.stock === 0}
                             variant="contained"
-                            color={isAlert ? "secondary" : "primary"}
+                            color={isAlert ? "secondary" : "default"}
                             className={classes.button}
                             endIcon={<Icon>add</Icon>}
                         >

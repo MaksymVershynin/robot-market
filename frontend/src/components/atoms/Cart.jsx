@@ -1,10 +1,10 @@
 import React from "react"
 import { useSelector } from 'react-redux'
-import "./styles/Cart.css"
+import "../styles/Cart.css"
 
-import Robot from "./atoms/Robot"
+import Robot from "./Robot"
 
-import {summElements_array} from "../services/calc"
+import {summElements_array} from "../../services/calc"
 
 const Cart = () => {
 
