@@ -1,8 +1,8 @@
 import React from "react"
 import { useSelector } from 'react-redux'
 
-import Robot from "./atoms/Robot"
-import "./styles/Robots.css"
+import Robot from "../components/atoms/Robot"
+import "../components/styles/Robots.css"
 
 const Robots = () => {
 

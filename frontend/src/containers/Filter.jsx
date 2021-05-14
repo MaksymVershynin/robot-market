@@ -1,7 +1,6 @@
 import React from "react"
 import { useDispatch } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles';
-import "./styles/Filter.css"
+import "../components/styles/Filter.css"
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -9,18 +8,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import { setVisibleRobots_redux } from '../redux/actions'
 
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
-
 const Filter = ({allRobots, materialTypes}) => {
-    const classes = useStyles();
+
     const dispatch = useDispatch();
 
     const handleChange = (event) => {
@@ -30,8 +19,7 @@ const Filter = ({allRobots, materialTypes}) => {
     };
 
     return  <div className={"filter"}>
-        <p>Filter: sort by</p>
-        <FormControl className={classes.formControl}>
+        <FormControl id ={"filterID"}>
             <InputLabel>Material type</InputLabel>
             <Select
                 // here should be className to provide styles, but I keep inline style due to only one style - width

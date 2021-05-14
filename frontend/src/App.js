@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import "./App.css"
 
 import Cart from './components/Cart'
-import Robots from './components/Robots'
-import Filter from './components/Filter'
+import Robots from './containers/Robots'
+import Filter from './containers/Filter'
 
 import {setAllRobots_redux, setVisibleRobots_redux} from './redux/actions'
 
@@ -45,9 +45,11 @@ function App() {
           />
           <Robots />
         </div>
-          
+
+
         <Cart />
-        
+
+                
       </div>
     </div>
   );

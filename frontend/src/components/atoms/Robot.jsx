@@ -1,19 +1,38 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import "./Robot.css"
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import Dialog from '@material-ui/core/Dialog';
-import Button from '@material-ui/core/Button';
+
+import { Button, ButtonGroup, Dialog, InputLabel } from '@material-ui/core';
+
 import Icon from '@material-ui/icons/SaveAlt';
+import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
 import { setVisibleRobots_redux, setSelectedRobots_redux} from '../../redux/actions'
 import {formatDate, deletedDublicates_array} from "../../services/calc"
 
 const useStyles = makeStyles((theme) => ({
+    robot: {
+        display: "flex",
+        flexDirection: "column",
+        margin: "0 20px",
+        "& label": {
+            marginTop: "10px"
+        },
+        "& span" :{
+            // margin: "5px 0 10px",
+            //fontSize: "15px"
+        }
+    },
+    stoc: {
+        fontSize:"20px"
+    },
     button: {
       margin: theme.spacing(1),
+      width: "fit-content",
+      fontSize: "12px!important"
     },
     modalButton : {
         float:"right",
@@ -28,10 +47,9 @@ const useStyles = makeStyles((theme) => ({
 const validation_robotsMax = (selectedRobotsToValidate) => {
 
     let arrayIDs = selectedRobotsToValidate.map(selectedRobot => selectedRobot.name);
+    const unicID_selectedRobots = deletedDublicates_array(arrayIDs ? arrayIDs : []);
+    const amountOfRobots = unicID_selectedRobots.length;
 
-    // counting unic ids
-    const amountOfRobots = deletedDublicates_array(arrayIDs ? arrayIDs : []).length
-    
     return !( amountOfRobots > 5 )
 }
 
@@ -87,29 +105,42 @@ const Robot = ({ robot, index: key, isCart }) => {
 
     
     return (
-        <div className={"robot"}>
+        <div className={classes.robot}>
             <img src={robot.image}/>
-            <span>Name: {robot.name}</span>
-            <span>Price: ฿{robot.price}</span>
-            {!isCart && <span>Stock: {robot.stock}</span>}
-            <span>Created date: {formatDate(robot.createdAt)}</span>
-            <span>Material: {robot.material}</span>
-            <span>Material: {robot.material}</span>
+            
+            <InputLabel htmlFor="name"><u>Name</u></InputLabel>
+            <span id = {'name'} >{robot.name}</span>
+            <InputLabel htmlFor="name"><u>Price</u></InputLabel>
+            <span id = {'price'} >฿{robot.price}</span>
+            {!isCart && <InputLabel htmlFor="stock"><u>Stock</u></InputLabel>}
+            {!isCart && <span id={"stock"} className={classes.stoc}>{robot.stock}</span>}
+            <InputLabel htmlFor="createdAt"><u>Created date</u></InputLabel>
+            <span id = {'createdAt'} >{formatDate(robot.createdAt)}</span>
+            <InputLabel htmlFor="material"><u>Material</u></InputLabel>
+            <span id = {'material'} >{robot.material}</span>
+
             
             {
                 isCart ? <>
-                            <button 
+                    <ButtonGroup disableElevation variant="contained" color="primary">
+                            <Button 
+                                variant="contained"
                                 onClick={addToCart}
-                                className={"delete_cart"}
+                                className={classes.button}
                                 disabled={selectedRobotDisabled}
-                                >
-                                    One more this Robot
-                            </button>     
-                            <button 
+                                endIcon={<AddCircleTwoToneIcon />}
+                            >
+                                One more
+                            </Button>
+                            <Button 
+                                color="secondary"
                                 onClick={deleteFromCart}
-                                className={"delete_cart"}>
-                                    Delete from Cart
-                            </button>
+                                className={classes.button}
+                                startIcon={<DeleteForeverOutlinedIcon />}
+                            >
+                                Delete
+                            </Button>
+                        </ButtonGroup>
                         </>
                         :
                         <Button

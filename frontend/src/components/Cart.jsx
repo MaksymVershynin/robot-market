@@ -18,7 +18,7 @@ const Cart = () => {
                 <span>total price: ฿{summElements_array(selectedRobots.map(el => el.price)).toFixed(2)}</span>
             </div>
             
-            <div >
+            <div className={"selectedRobots"}>
                 {selectedRobots.map((robot, index) => 
                     <Robot 
                         robot = {robot}
