@@ -9,13 +9,14 @@ const Robots = () => {
     const robotsToShow = useSelector(state => state.robots.visibleRobots)
     
     return <div className={"robots"}>
-            {robotsToShow.map((robot, index) =>             
+            {robotsToShow[0] ? robotsToShow.map((robot, index) =>             
                 <Robot 
                     robot = {robot}
                     key={index}
                 />)
-            }       
-               
+                :
+                <div>No robots</div>
+            }                     
         </div>
 }
 
